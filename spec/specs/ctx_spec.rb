@@ -54,6 +54,19 @@ describe CTX do
 
     scoped.scoped_method(10).should == "original context : 10"
 
+    class ::String
+      scoped_define :+ do |other|
+        "#{self.capitalize} #{other.capitalize}!"
+      end
+    end
+
+    ("hello" + "world").should_not == "Hello World!"
+
+    scope {
+      ("hello" + "world").should == "Hello World!"
+    }
+
+
   end
 
 end
