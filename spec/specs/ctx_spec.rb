@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'ctx'
 
 describe CTX do
 
