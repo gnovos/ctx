@@ -45,11 +45,14 @@ describe CTX do
 
         context.some_method(10).should == "bar context : 20"
         ctx :unknown do
+          ctx[:var].should be_nil
+
           context.some_method(10).should == "bar context : 20"
         end
       end
 
       ctx.name.should == :foo
+      ctx[:var].should == "in foo context"
 
       context.some_method(10).should == "foo context : 5"
 
