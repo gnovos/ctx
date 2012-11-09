@@ -1,54 +1,74 @@
+require 'awesome_print'
 module CTX
 
   class ::Array
-    def select_first(&block)
-      selected = nil
-      each do |item|
-        break if (selected = block.call(item))
-      end
-      selected
+    def return_first(&block)
+      returned = nil
+      each { |item| break if (returned = block.call(item)) }
+      returned
     end
   end
 
   class Context < Hash
     attr_reader :name
-    def initialize(name) @name = name.to_sym end
+    def initialize(name) @name = name.sym end
     def eql?(other) @name.eql?(other.name) end
     def hash() @name.hash end
   end
 
-  class ::BasicObject
+  class ::Object
+    def sym() respond_to?(:to_sym) ? to_sym : to_s.to_sym end
 
-    def ctx(name = :anonymous, &scoped) self.class.ctx(name, &scoped) end
+    @@contexts ||= [Context.new(nil)]
+    def ctx(context = :anonymous, &contextual)
+      if contextual.nil?
+        @@contexts.reverse.first
+      else
+        @@contexts.push(Context.new(context))
+        instance_eval(&contextual)
+        @@contexts.pop()
+      end
+    end
 
-    class << self
-      @@contexts = [nil]
-      def ctx(name = :anonymous, &scoped)
-        return @@contexts.last if scoped.nil?
+  end
 
-        context = Context.new(name)
-        @@contexts.push(context)
-        scoped.call(self)
-        @@contexts.pop
+  class ::Class
+
+    def object_methods() self.instance_methods - Object.instance_methods end
+    def class_methods() self.singleton_methods - Object.singleton_methods end
+    def defined_methods() class_methods | object_methods end
+
+    attr_accessor :ctx_methods
+
+    def ctx(context = :anonymous, &contextual)
+      @ctx_methods ||= {}
+
+      template = self.dup
+      template.class_eval(&contextual)
+
+      matching = self.object_methods & template.object_methods
+      matching.each do |method_name|
+        if ctx_methods[method_name].nil?
+          ctx_methods[method_name] = {}
+          ctx_methods[method_name][nil.sym] = instance_method(method_name)
+        end
       end
 
-      def ctx_define(context = :anonymous, method, &definition)
-        method = method.to_sym
-        @@ctx_methods ||= {}
-        @@ctx_methods[method] ||= {}
-
-        if @@ctx_methods[method][nil].nil?
-          @@ctx_methods[method][nil] = instance_method(method) if method_defined? method
-          define_method(method) do |*args|
-            methods = @@ctx_methods[method]
-            matched = @@contexts.reverse.select_first { |ctx| methods[ctx ? ctx.name : nil] }
-            matched.bind(self).(*args)
-          end
+      self.class_eval(&contextual)
+      template.object_methods.each do |method_name|
+        if ctx_methods[method_name].nil?
+          ctx_methods[method_name] = {}
         end
 
-        scoped_method = "#{context}_#{method}".to_sym
-        define_method(scoped_method, &definition)
-        @@ctx_methods[method][context] = instance_method(scoped_method)
+        ctx_methods[method_name][context] = instance_method(method_name)
+      end
+
+      self.object_methods.each do |method_name|
+        define_method(method_name) do |*args|
+          methods = self.class.ctx_methods[method_name]
+          matched = @@contexts.reverse.return_first { |currentctx| methods[currentctx.name] }
+          matched.bind(self).(*args)
+        end
       end
     end
   end

@@ -11,23 +11,29 @@ describe CTX do
     end
 
     class ContextTest
-      ctx_define :bar, :some_method do |num|
-        "bar context : #{num * 2}"
+      ctx :bar do
+        def some_method(num)
+          "bar context : #{num * 2}"
+        end
       end
 
-      ctx_define :foo, :some_method do |num|
-        "foo context : #{num / 2}"
+      ctx :foo do
+        def some_method(num)
+          "foo context : #{num / 2}"
+        end
       end
 
-      ctx_define :some_method do |num|
-        "anonymous context : #{num + 2}"
+      ctx do
+        def some_method(num)
+          "anonymous context : #{num + 2}"
+        end
       end
 
     end
 
     context = ContextTest.new
 
-    ctx.should be_nil
+    ctx.name.should == nil.sym
 
     context.some_method(10).should == "original context : 10"
 
@@ -65,8 +71,10 @@ describe CTX do
     context.some_method(10).should == "original context : 10"
 
     class ::String
-      ctx_define :+ do |other|
-        "#{self.capitalize} #{other.capitalize}!"
+      ctx do
+        def +(other)
+          "#{self.capitalize} #{other.capitalize}!"
+        end
       end
     end
 

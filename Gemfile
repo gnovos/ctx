@@ -10,3 +10,4 @@ group :development do
 end
 
 
+gem 'awesome_print', :require => :ap
