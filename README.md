@@ -9,17 +9,25 @@ Example
 Here, figure it out:
 
     class ::String
-      ctx_define :reversaroo, :+ do |other|
-        "#{other.reverse}#{self.reverse}"
+      ctx :reversaroo do
+        def +(other)
+          "#{other.reverse}#{self.reverse}"
+        end
       end
-      ctx_define :camels, :+ do |other|
-        "#{self.capitalize}#{other.capitalize}"
+      ctx :camels do
+        def +(other)
+          "#{self.capitalize}#{other.capitalize}"
+        end
       end
-      ctx_define :polite, :+ do |other|
-        "I say, good day to you there #{other}, may I introduce you to my good friend #{self}?"
+      ctx :polite do
+        def +(other)
+          "I say, good day to you there #{other}, may I introduce you to my good friend #{self}?"
+        end
       end
-      ctx_define :+ do |other|
-        "#{self} + #{other} = ?"
+      ctx do
+        def +(other)
+          "#{self} + #{other} = ?"
+        end
       end
     end
 
