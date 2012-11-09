@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name         = 'ctx'
-  s.version      = '2.0.0'
-  s.homepage     = 'http://rubygems.org/gems/ctx'
+  s.version      = '2.0.1'
+  s.homepage     = 'https://github.com/gnovos/ctx'
   s.summary      = 'Scoped define and context for use in writing more expressive DSLs'
   s.description  = 'Scoped define and context for use in writing more expressive DSLs'
   s.authors      = %w(Mason)
