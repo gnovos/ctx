@@ -77,7 +77,7 @@ For whatever reason, this stuff doesn't play well with rspec all the time,
 particularly if you override stuff the matchers are hoping to also override,
 like == or =~ on String, who knew?
 
-*So don't do that.*
+*So, don't do that.*
 
 ...not unless you like stuff to break in inexplicable ways.
 
