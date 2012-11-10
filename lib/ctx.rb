@@ -1,12 +1,6 @@
-module CTX
+require 'mobj'
 
-  class ::Array
-    def return_first(&block)
-      returned = nil
-      each { |item| break if (returned = block.call(item)) }
-      returned
-    end
-  end
+module CTX
 
   class Context < Hash
     attr_reader :name
@@ -17,7 +11,6 @@ module CTX
   end
 
   class ::Object
-    def sym() respond_to?(:to_sym) ? to_sym : to_s.to_sym end
     def ctxputs(*args)
       ctxs = @@contexts.map(&:name)[1..-1].join(":")
       ctxs = "[CTX #{ctxs}] " unless ctxs.empty?
@@ -43,10 +36,6 @@ module CTX
   end
 
   class ::Class
-
-    def object_methods() self.instance_methods - Object.instance_methods end
-    def class_methods() self.singleton_methods - Object.singleton_methods end
-    def defined_methods() class_methods | object_methods end
 
     attr_accessor :ctx_methods
 
