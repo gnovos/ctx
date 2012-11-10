@@ -10,5 +10,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.bindir       = 'bin'
 
-  s.add_development_dependency ['rspec', 'rr', 'awesome_print']
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rr'
+  s.add_development_dependency 'awesome_print'
 end
