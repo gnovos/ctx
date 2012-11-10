@@ -72,7 +72,8 @@ particularly if you override stuff the matchers are hoping to also override,
 like == or =~ on String.
 
 Don't do that right now unless you like stuff to break in inexplicable ways.
+
 Personally, I *do* like things breaking in inexplicable ways (why else would I write things like this?)
-makes life interesting (also kind of explains my dating choices, when you get right down to it),
+since makes life interesting (also kind of explains my dating choices, when you get right down to it),
 but, honestly, it's your call.
 
