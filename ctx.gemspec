@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name         = 'ctx'
-  s.version      = '2.1.1'
+  s.version      = '2.1.3'
   s.homepage     = 'https://github.com/gnovos/ctx'
   s.summary      = 'Scoped define and context for use in writing more expressive DSLs'
   s.description  = 'Contextual method define'
@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.bindir       = 'bin'
 
-  s.add_development_dependency 'rspec'
+  s.add_development_dependency ['rspec', 'rr', 'awesome_print']
 end
