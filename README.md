@@ -54,7 +54,8 @@ Here, figure it out:
 There are bugs.  You'll find them.
 
 
-===
+Caveats and such
+---
 
 Also, for whatever goofy reason, this stuff doesn't play well with rspec all the time, particularly if you override the matchers, like == or whatnot.  Don't do that right now.
 
