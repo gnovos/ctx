@@ -2,8 +2,8 @@ Gem::Specification.new do |s|
   s.name         = 'ctx'
   s.version      = '2.1.3'
   s.homepage     = 'https://github.com/gnovos/ctx'
-  s.summary      = 'Scoped define and context for use in writing more expressive DSLs'
-  s.description  = 'Contextual method define'
+  s.description  = 'Scoped and contextual method definition for use in writing more expressive DSLs without screwing defintions in other pieces of code'
+  s.summary      = 'Contextual method define'
   s.authors      = %w(Mason)
   s.email        = 'ctx@chipped.net'
   s.files        = Dir["{lib}/**/*.rb", "bin/*", "LICENSE", "*.md"]
