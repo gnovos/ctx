@@ -18,6 +18,16 @@ module CTX
 
   class ::Object
     def sym() respond_to?(:to_sym) ? to_sym : to_s.to_sym end
+    def ctxputs(*args)
+      ctxs = @@contexts.map(&:name)[1..-1].join(":")
+      ctxs = "[CTX #{ctxs}] " unless ctxs.empty?
+      puts "#{ctxs}#{args.map(&:to_s).join(', ')}"
+    end
+    def ctxp(*args)
+      ctxs = @@contexts.map(&:name)[1..-1].join(":")
+      ctxs = "[CTX #{ctxs.empty? ? "-" : ctxs}]"
+      puts "#{ctxs}\n#{args.map(&:inspect).join("\n")}"
+    end
 
     @@contexts ||= [Context.new(nil)]
     def ctx(context = :anonymous, &contextual)

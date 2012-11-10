@@ -8,6 +8,8 @@ Example
 
 Here, figure it out:
 
+    require 'ctx'
+
     class ::String
       ctx :reversaroo do
         def +(other)
@@ -21,7 +23,7 @@ Here, figure it out:
       end
       ctx :polite do
         def +(other)
-          "I say, good day to you there #{other}, may I introduce you to my good friend #{self}?"
+          "I say, good day to you there '#{other}', may I introduce you to my good friend '#{self}'?"
         end
       end
       ctx do
@@ -32,23 +34,30 @@ Here, figure it out:
     end
 
     puts "hello" + "world"
+    #=> helloworld
 
     ctx :camels do
       puts "hello" + "world"
+      #=> HelloWorld
+
       ctx :polite do
         puts "hello" + "world"
+        #=> I say, good day to you there 'world', may I introduce you to my good friend 'hello'?
       end
 
       ctx do
         puts "hello" + "world"
+        #=> hello + world = ?
       end
     end
 
     ctx :reversaroo do
       puts "hello" + "world"
+      #=> dlrowolleh
     end
 
     puts "hello" + "world"
+    #=> helloworld
 
 
 There are bugs.  You'll find them.
