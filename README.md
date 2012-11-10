@@ -58,5 +58,5 @@ There are bugs.  You'll find them.
 Caveats and such
 ===
 
-For whatever goofy reason, this stuff doesn't play well with rspec all the time, particularly if you override stuff the matchers are hoping to also override, like == or =~ on String, or whatnot.  Don't do that right now unless you like stuff to break in inexplicable ways.  Personally, I do like that kind fo stuff, makes life interesting, but honestly, it's your call.
+For whatever goofy reason, this stuff doesn't play well with rspec all the time, particularly if you override stuff the matchers are hoping to also override, like == or =~ on String, or whatnot.  Don't do that right now unless you like stuff to break in inexplicable ways.  Personally, I do like that kind of stuff, makes life interesting (kind of explains my dating choices, when you get right down to it), but anywhoo, honestly, it's your call.
 
