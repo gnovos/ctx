@@ -1,7 +1,13 @@
 ctx
 ===
 
-Simple utility to limit method redefinition within the bounds of arbitrary logical scopes
+Tired of waiting for refinements in ruby 2.0?
+
+Or something like it?
+
+Me, too.
+
+So, this.
 
 Example
 ===
