@@ -76,13 +76,25 @@ describe CTX do
           "#{self.capitalize} #{other.capitalize}!"
         end
       end
+      ctx :test do
+        def <<(other)
+          "is #{self} << #{other}?"
+        end
+      end
+
     end
+
+    ("hello" << "world").should == "helloworld"
+    ctx(:test) {
+      ("hello" << "world").should == "is hello << world?"
+    }
 
     ("hello" + "world").should_not == "Hello World!"
 
     ctx {
       ("hello" + "world").should == "Hello World!"
     }
+
 
   end
 
