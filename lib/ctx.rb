@@ -12,12 +12,12 @@ module CTX
 
   class ::Object
     def ctxputs(*args)
-      ctxs = @@contexts.map(&:name)[1..-1].reverse.join(":")
+      ctxs = @@contexts[0...-1].map(&:name).reverse.join(":")
       ctxs = "[CTX #{ctxs}] " unless ctxs.empty?
       puts "#{ctxs}#{args.map(&:to_s).join(', ')}"
     end
     def ctxp(*args)
-      ctxs = @@contexts.map(&:name)[1..-1].reverse.join(":")
+      ctxs = @@contexts[0...-1].map(&:name).reverse.join(":")
       ctxs = "[CTX #{ctxs.empty? ? "-" : ctxs}]"
       puts "#{ctxs}\n#{args.map(&:inspect).join("\n")}"
     end
