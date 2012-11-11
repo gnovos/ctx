@@ -15,6 +15,9 @@ describe CTX do
         def some_method(num)
           "bar context : #{num * 2}"
         end
+        def self.some_other_method(num)
+          "other bar context : #{num * 2}"
+        end
       end
 
       ctx :foo do
@@ -52,9 +55,11 @@ describe CTX do
         context.some_method(10).should == "bar context : 20"
         ctx :unknown do
           ctx[:var].should be_nil
-
           context.some_method(10).should == "bar context : 20"
         end
+
+        context.class.some_other_method(10).should == "other bar context : 20"
+
       end
 
       ctx.name.should == :foo
