@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name         = 'ctx'
-  s.version      = '2.2.0'
+  s.version      = '2.2.1'
   s.homepage     = 'https://github.com/gnovos/ctx'
   s.description  = 'Scoped and contextual method definition for use in writing more expressive DSLs without screwing defintions in other pieces of code'
   s.summary      = 'Contextual method define'

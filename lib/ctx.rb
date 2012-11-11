@@ -47,43 +47,45 @@ module CTX
 
     attr_accessor :ctx_methods
 
-    def ctx(context = :anonymous, &contextual)
+    def ctx(*contexts, &contextual)
       @ctx_methods ||= {}
+      contexts = [:anonymous] if contexts.empty?
+      contexts.each do |context|
+        template = Template.new
+        template.instance_exec(self, &contextual)
 
-      template = Template.new
-      template.instance_exec(self, &contextual)
+        matching = template.added
 
-      matching = template.added
-
-      matching.each do |method_name|
-        if ctx_methods[method_name].nil?
-          ctx_methods[method_name] = {}
-          if instance_methods(true).includes? method_name
-            ctx_methods[method_name][nil.sym] = instance_method(method_name)
-          elsif singleton_methods(true).include? method_name
-            ctx_methods[method_name][nil.sym] = singleton_class.instance_method(method_name)
+        matching.each do |method_name|
+          if ctx_methods[method_name].nil?
+            ctx_methods[method_name] = {}
+            if instance_methods(true).includes? method_name
+              ctx_methods[method_name][nil.sym] = instance_method(method_name)
+            elsif singleton_methods(true).include? method_name
+              ctx_methods[method_name][nil.sym] = singleton_class.instance_method(method_name)
+            end
           end
         end
-      end
 
-      self.class_eval(&contextual)
+        self.class_eval(&contextual)
 
-      matching.each do |method_name|
-        if instance_methods(true).includes? method_name
-          ctx_methods[method_name][context] = instance_method(method_name)
-          define_method(method_name) do |*args|
-            methods = self.class.ctx_methods[method_name]
-            matched = @@contexts.return_first { |currentctx|  methods[currentctx.name] }
-            matched.bind(self).(*args)
-          end
+        matching.each do |method_name|
+          if instance_methods(true).includes? method_name
+            ctx_methods[method_name][context] = instance_method(method_name)
+            define_method(method_name) do |*args|
+              methods = self.class.ctx_methods[method_name]
+              matched = @@contexts.return_first { |currentctx|  methods[currentctx.name] }
+              matched.bind(self).(*args)
+            end
 
-        elsif singleton_methods(true).include? method_name
-          ctx_methods[method_name][context] = singleton_class.instance_method(method_name)
+          elsif singleton_methods(true).include? method_name
+            ctx_methods[method_name][context] = singleton_class.instance_method(method_name)
 
-          define_singleton_method(method_name) do |*args|
-            methods = self.ctx_methods[method_name]
-            matched = @@contexts.return_first { |currentctx|  methods[currentctx.name] }
-            matched.bind(self).(*args)
+            define_singleton_method(method_name) do |*args|
+              methods = self.ctx_methods[method_name]
+              matched = @@contexts.return_first { |currentctx|  methods[currentctx.name] }
+              matched.bind(self).(*args)
+            end
           end
         end
       end

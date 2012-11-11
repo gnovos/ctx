@@ -11,7 +11,7 @@ describe CTX do
     end
 
     class ContextTest
-      ctx :bar do
+      ctx :bar, :baz do
         def some_method(num)
           "bar context : #{num * 2}"
         end
@@ -60,6 +60,14 @@ describe CTX do
 
         context.class.some_other_method(10).should == "other bar context : 20"
 
+      end
+
+      ctx(:baz) do
+        ctx.name.should == :baz
+        ctx[:var] = "in baz context"
+        ctx[:var].should == "in baz context"
+        context.some_method(10).should == "bar context : 20"
+        context.class.some_other_method(10).should == "other bar context : 20"
       end
 
       ctx.name.should == :foo
