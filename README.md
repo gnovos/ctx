@@ -14,57 +14,60 @@ Example
 
 Here, figure it out:
 
-    require 'ctx'
+```ruby
 
-    class ::String
-      ctx :reversaroo do
-        def +(other)
-          "#{other.reverse}#{self.reverse}"
-        end
-      end
-      ctx :camels do
-        def +(other)
-          "#{self.capitalize}#{other.capitalize}"
-        end
-      end
-      ctx :polite do
-        def +(other)
-          "I say, good day to you there '#{other}', may I introduce you to my good friend '#{self}'?"
-        end
-      end
-      ctx do
-        def +(other)
-          "#{self} + #{other} = ?"
-        end
-      end
+require 'ctx'
+
+class ::String
+  ctx :reversaroo do
+    def +(other)
+      "#{other.reverse}#{self.reverse}"
     end
+  end
+  ctx :camels do
+    def +(other)
+      "#{self.capitalize}#{other.capitalize}"
+    end
+  end
+  ctx :polite do
+    def +(other)
+      "I say, good day to you there '#{other}', may I introduce you to my good friend '#{self}'?"
+    end
+  end
+  ctx do
+    def +(other)
+      "#{self} + #{other} = ?"
+    end
+  end
+end
 
+puts "hello" + "world"
+#=> helloworld
+
+ctx :camels do
+  puts "hello" + "world"
+  #=> HelloWorld
+
+  ctx :polite do
     puts "hello" + "world"
-    #=> helloworld
+    #=> I say, good day to you there 'world', may I introduce you to my good friend 'hello'?
+  end
 
-    ctx :camels do
-      puts "hello" + "world"
-      #=> HelloWorld
-
-      ctx :polite do
-        puts "hello" + "world"
-        #=> I say, good day to you there 'world', may I introduce you to my good friend 'hello'?
-      end
-
-      ctx do
-        puts "hello" + "world"
-        #=> hello + world = ?
-      end
-    end
-
-    ctx :reversaroo do
-      puts "hello" + "world"
-      #=> dlrowolleh
-    end
-
+  ctx do
     puts "hello" + "world"
-    #=> helloworld
+    #=> hello + world = ?
+  end
+end
 
+ctx :reversaroo do
+  puts "hello" + "world"
+  #=> dlrowolleh
+end
+
+puts "hello" + "world"
+#=> helloworld
+
+```
 
 There are bugs.  You'll find them.
 
